@@ -14,5 +14,25 @@
 #
 
 class User < ApplicationRecord
-  include TokenAuthenticable
+
+  # Associations
+  has_many :user_media
+  has_many :purchases
+  has_many :media, through: :user_media, class_name: :medium
+
+  # Validations
+  validates :name, :email, presence: true
+  validates :email, uniqueness: true
+
+
+  include JwtAuthentication
+
+  def profile
+    {
+      id: self.id,
+      name: self.name,
+      email: self.email
+    }
+  end
+
 end
