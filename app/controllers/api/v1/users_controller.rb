@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def media
-    @user_media = @current_user.media
+    @user_media = @current_user.user_media.includes(:medium)
   end
 
   def purchase
