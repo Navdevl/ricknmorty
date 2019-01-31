@@ -6,7 +6,7 @@ json.media do
       episodes = medium.episodes
       json.episodes do 
         json.array!(episodes) do |episode|
-          json.merge! medium.describe
+          json.merge! episode.describe
           json.sub_id episode.sub_id
         end
       end
