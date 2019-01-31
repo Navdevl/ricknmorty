@@ -16,7 +16,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def purchases
-    @current_user.purchases
+    @purchases = @current_user.purchases
   end
 
   private
