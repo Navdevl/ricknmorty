@@ -1,0 +1,2 @@
+class Submedium < ApplicationRecord
+end

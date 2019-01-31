@@ -11,4 +11,6 @@
 #
 
 class Medium < ApplicationRecord
+
+  enum media_types: [:movie, :series]
 end
