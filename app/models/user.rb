@@ -21,7 +21,7 @@ class User < ApplicationRecord
   # Associations
   has_many :user_media
   has_many :purchases
-  has_many :media, through: :user_media, class_name: :medium
+  has_many :media, through: :user_media, source: :medium
 
   # Validations
   validates :name, :email, presence: true

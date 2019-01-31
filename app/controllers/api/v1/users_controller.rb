@@ -5,6 +5,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def media
+    @user_media = @current_user.media
   end
 
   def purchase

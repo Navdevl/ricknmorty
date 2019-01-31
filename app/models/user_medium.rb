@@ -12,6 +12,10 @@
 #
 
 class UserMedium < ApplicationRecord
+  belongs_to :user
+  belongs_to :medium
+
+  
   DAYS_TO_EXPIRE = 2.days
 
   before_save :create_additional_timestamps
