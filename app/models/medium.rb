@@ -12,5 +12,13 @@
 
 class Medium < ApplicationRecord
 
-  enum media_types: [:movie, :series]
+  has_many :submedia
+
+  enum media_types: [:movie, :season]
+
+  def episodes
+    if self.season?
+      self.submedia
+    end
+  end
 end

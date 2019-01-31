@@ -15,6 +15,9 @@ gem 'jbuilder', '~> 2.5'
 # Devise User Model can be used
 gem 'devise'
 
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'
+
 # JWT Tokenization
 gem 'jwt'
 # Reduces boot times through caching; required in config/boot.rb

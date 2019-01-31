@@ -12,4 +12,8 @@
 #
 
 class UserMedium < ApplicationRecord
+
+  def expired?
+    expires_at < Time.now
+  end
 end
