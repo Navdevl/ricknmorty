@@ -16,6 +16,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable
 
+  HAS_ACTIVE_MEDIUM_ERROR = "You have already purchased this media" # This can be moved to en.yml too
+
   # Associations
   has_many :user_media
   has_many :purchases
@@ -37,20 +39,23 @@ class User < ApplicationRecord
   end
 
   def have_active_medium?(medium)
-    user_medium = self.user_media.where(medium_id: medium.id).presence
-    if user_media
-      return !user_media.expired?    
+    user_medium = self.user_media.find_by(medium_id: medium.id).presence
+    if user_medium
+      return !user_medium.expired?    
     end
-    return user_media
+    return user_medium
   end
 
   def purchase_medium!(medium)
-    unless have_active_medium?(medium)
+    if have_active_medium?(medium)
+      self.errors.add(:base, HAS_ACTIVE_MEDIUM_ERROR)
+    else
       user_medium = self.user_media.new(medium_id: medium.id)
-      if user_media.save
+      if user_medium.save
         purchase = self.purchases.new(medium_id: medium.id, user_id: id)
         purchase.save
       end
+      return user_medium
     end
   end
 end

@@ -12,9 +12,11 @@
 
 class Medium < ApplicationRecord
 
-  has_many :submedia
+  has_many :submedia, foreign_key: :parent_medium_id
 
-  enum media_types: [:movie, :season]
+  validates :name, :plot, presence: true
+
+  enum media_type: [:movie, :season]
 
   def episodes
     if self.season?

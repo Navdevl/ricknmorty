@@ -1,5 +1,5 @@
 class Api::V1::ApplicationController < ActionController::API
-  before_action :authorize, except: [:index]
+  before_action :authorize
 
   def index
     render json: {success: true}
