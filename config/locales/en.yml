@@ -13,5 +13,8 @@ en:
           success: "Signed in successfully"
           failure: "Please check your credentials"
       registrations:
+        sign_in:
+          success: "Registered Successfully"
         sign_up:
-          failure: "Oops. Something went wrong."
+          already_registered: "This email ID has been registered already."
+          failure: "Something went wrong. Please contact your administrator."

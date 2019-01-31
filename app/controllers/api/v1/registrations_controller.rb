@@ -4,7 +4,7 @@ class Api::V1::RegistrationsController < Api::V1::ApplicationController
   # POST /sessions
   def create
     user = User.find_by(email: user_params[:email])
-    return unauthorized("Email ID is already registered.") if @user.present?
+    return unauthorized(i18n_content('sign_up.already_registered')) if user.present?
 
     user = User.new(email: user_params[:email], 
                     name: user_params[:name],
