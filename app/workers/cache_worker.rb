@@ -8,6 +8,8 @@ class CacheWorker
       cache_user_medium(info)
     elsif classname == "Medium"
       cache_medium(info)
+    elsif classname == "Submedium"
+      cache_submedium(info)
     end
   end
 
@@ -37,5 +39,11 @@ class CacheWorker
       Rails.cache.write(Medium.sql_cache_key(media_type: :season), Medium.season.latest)
       Rails.cache.write(Medium.sql_cache_key(media_type: :season, detail: true), Medium.season.includes(:submedia).latest.order_by_episodes)
     end
+  end
+
+  def cache_submedium(submedium_id)
+    submedium = Submedium.find_by(id: submedium_id)
+    return unless submedium.present?
+    cache_medium(submedium.parent_medium_id)
   end
 end

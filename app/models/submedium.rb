@@ -20,4 +20,12 @@ class Submedium < ApplicationRecord
   validates :sub_id, :name, :plot, presence: true
   validates :sub_id, uniqueness: { scope: :parent_medium_id }
 
+  # Actions
+  before_save :refresh_cache
+
+  protected
+  def refresh_cache
+    CacheWorker.perform_async(self.class.name, self.id)
+  end
+
 end
