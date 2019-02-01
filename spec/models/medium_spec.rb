@@ -14,6 +14,10 @@ RSpec.describe Medium, type: :model do
   end
 
   context "validation" do 
+    context "media_type" do 
+      it { should define_enum_for(:media_type).with_values([:movie, :season]) }
+    end
+
     context "name" do 
       it { should validate_presence_of(:name) }
     end

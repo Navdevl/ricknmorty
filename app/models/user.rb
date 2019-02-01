@@ -18,8 +18,8 @@ class User < ApplicationRecord
   HAS_ACTIVE_MEDIUM_ERROR = "You have already purchased this media" # This can be moved to en.yml too
 
   # Associations
-  has_many :user_media
-  has_many :purchases
+  has_many :user_media, dependent: :destroy
+  has_many :purchases, dependent: :destroy
   has_many :media, through: :user_media, source: :medium
 
   # Validations

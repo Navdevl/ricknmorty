@@ -6,8 +6,8 @@ RSpec.describe Purchase, type: :model do
   end
 
   context "association" do 
-    it { should belongs_to(:medium) }
-    it { should belongs_to(:user) }
+    it { should belong_to(:medium) }
+    it { should belong_to(:user) }
   end
 
   context "validation" do 

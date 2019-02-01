@@ -13,7 +13,7 @@
 class Medium < ApplicationRecord
 
   # Associations
-  has_many :submedia, foreign_key: :parent_medium_id
+  has_many :submedia, foreign_key: :parent_medium_id, dependent: :destroy
 
   # Validations
   validates :name, :plot, presence: true

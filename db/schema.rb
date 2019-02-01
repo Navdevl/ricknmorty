@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 2019_01_31_114242) do
     t.datetime "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["medium_id"], name: "index_user_media_on_medium_id"
+    t.index ["user_id"], name: "index_user_media_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -6,7 +6,7 @@ RSpec.describe Submedium, type: :model do
   end
 
   context "association" do 
-    it { should belongs(:medium) }
+    it { should belong_to(:medium) }
   end
 
   context "validation" do 
