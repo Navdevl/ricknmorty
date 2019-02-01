@@ -15,7 +15,6 @@
 
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable
-
   HAS_ACTIVE_MEDIUM_ERROR = "You have already purchased this media" # This can be moved to en.yml too
 
   # Associations

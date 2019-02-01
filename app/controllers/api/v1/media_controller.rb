@@ -23,7 +23,7 @@ class Api::V1::MediaController < Api::V1::ApplicationController
   def seasons
     if @detail
       @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do
-        Medium.season.includes(:submedia).latest.order('submedia.sub_id')
+        Medium.season.includes(:submedia).latest.order_by_episodes
       end
     else
       @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do

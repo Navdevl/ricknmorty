@@ -12,15 +12,19 @@
 #
 
 class UserMedium < ApplicationRecord
+  DAYS_TO_EXPIRE = 2.days
+  
+  # Associations
   belongs_to :user
   belongs_to :medium
 
-  
-  DAYS_TO_EXPIRE = 2.days
+  # Validations
 
+  # Actions
   before_create :create_additional_timestamps
   after_save :refresh_cache
 
+  # Scopes 
   scope :active, -> {where("expires_at > ?", Time.now)}
 
   def expired?
@@ -38,8 +42,7 @@ class UserMedium < ApplicationRecord
 
   protected
   def refresh_cache
-    Rails.cache.delete(UserMedium.cache_key(self.user))
-    Rails.cache.write(UserMedium.cache_key(self.user), self.user.user_media.active.includes(:medium))
+    CacheWorker.perform_async(self.class.name, self.user.id)
   end
 
   def create_additional_timestamps

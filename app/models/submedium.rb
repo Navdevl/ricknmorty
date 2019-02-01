@@ -13,10 +13,11 @@
 
 class Submedium < ApplicationRecord
 
+  # Associations
   belongs_to :medium, foreign_key: :parent_medium_id
 
+  # Validations
   validates :sub_id, :name, :plot, presence: true
-
   validates :sub_id, uniqueness: { scope: :parent_medium_id }
 
 end
