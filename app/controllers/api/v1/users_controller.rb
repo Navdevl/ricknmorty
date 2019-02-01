@@ -5,7 +5,9 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def media
-    @user_media = @current_user.user_media.includes(:medium)
+    @user_media = Rails.cache.fetch(UserMedium.cache_key(@current_user)) do
+      @current_user.user_media.active.includes(:medium)
+    end
   end
 
   def purchase
@@ -16,7 +18,9 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def purchases
-    @purchases = @current_user.purchases
+    @purchases = Rails.cache.fetch("purchases_#{@current_user.id}") do
+      @current_user.purchases
+    end
   end
 
   private

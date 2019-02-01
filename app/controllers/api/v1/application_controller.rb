@@ -1,4 +1,6 @@
 class Api::V1::ApplicationController < ActionController::API
+  include ActionController::Caching
+
   before_action :authorize
 
   def index

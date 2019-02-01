@@ -18,13 +18,30 @@ class UserMedium < ApplicationRecord
   
   DAYS_TO_EXPIRE = 2.days
 
-  before_save :create_additional_timestamps
+  before_create :create_additional_timestamps
+  after_save :refresh_cache
+
+  scope :active, -> {where("expires_at > ?", Time.now)}
 
   def expired?
-    expires_at < Time.now
+    time_remaining < 0
+  end
+
+  def time_remaining
+    self.expires_at - Time.now
+  end
+
+  def self.cache_key(user)
+    user_media = UserMedium.where(user_id: user.id).active
+    "user_media_#{user.id}_#{user_media.minimum(:expires_at)}"
   end
 
   protected
+  def refresh_cache
+    Rails.cache.delete(UserMedium.cache_key(self.user))
+    Rails.cache.write(UserMedium.cache_key(self.user), self.user.user_media.active.includes(:medium))
+  end
+
   def create_additional_timestamps
     self.purchased_at = Time.now
     self.expires_at = Time.now + DAYS_TO_EXPIRE

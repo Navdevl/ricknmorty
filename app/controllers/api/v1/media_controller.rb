@@ -4,21 +4,31 @@ class Api::V1::MediaController < Api::V1::ApplicationController
 
   def index
     if @detail
-      @media = Medium.all.includes(:submedia).latest.order('submedia.sub_id')
+      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: @detail)) do
+        Medium.all.includes(:submedia).latest.order_by_episodes
+      end
     else
-      @media = Medium.all.latest
+      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: @detail)) do
+        Medium.all.latest
+      end
     end
   end
 
   def movies
-    @media = Medium.movie.latest
+    @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :movie, detail: @detail)) do
+      Medium.movie.latest
+    end
   end
 
   def seasons
     if @detail
-      @media = Medium.season.includes(:submedia).latest.order('submedia.sub_id')
+      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do
+        Medium.season.includes(:submedia).latest.order('submedia.sub_id')
+      end
     else
-      @media = Medium.season.latest
+      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do
+        Medium.season.latest
+      end
     end
   end
 

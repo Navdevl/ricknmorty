@@ -53,6 +53,7 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.1.4)
     crass (1.0.4)
+    dalli (2.7.9)
     devise (4.5.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -159,6 +160,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
+  dalli
   devise
   jbuilder (~> 2.5)
   jwt
