@@ -10,5 +10,7 @@ RSpec.describe Submedium, type: :model do
   end
 
   context "validation" do 
+    it "validates parent medium" do 
+    end
   end
 end

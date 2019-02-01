@@ -22,17 +22,16 @@ class Submedium < ApplicationRecord
 
   # Actions
   before_save :refresh_cache
-  before_validation :validate_parent_medium
+  validate :parent_medium
 
   protected
   def refresh_cache
     CacheWorker.perform_async(self.class.name, self.id)
   end
 
-  def validate_parent_medium
-    unless medium.season?
-      self.errors.add(:medium, "should be a season")
-    end
+  def parent_medium
+    return self.errors.add(:medium, "should exist") unless self.medium.present?
+    return self.errors.add(:medium, "should be a season") unless self.medium.season?
   end
 
 end
