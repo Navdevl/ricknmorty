@@ -156,7 +156,6 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     ruby_dep (1.5.0)
-    shoulda (2.11.3)
     shoulda-matchers (4.0.0.rc1)
       activesupport (>= 4.2.0)
     sidekiq (5.1.3)
@@ -205,8 +204,7 @@ DEPENDENCIES
   rails (~> 5.2.2)
   rails-controller-testing
   rspec-rails (~> 3.8)
-  shoulda
-  shoulda-matchers
+  shoulda-matchers (= 4.0.0.rc1)
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)

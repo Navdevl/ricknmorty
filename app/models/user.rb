@@ -25,7 +25,7 @@ class User < ApplicationRecord
   # Validations
   validates :name, :email, presence: true
   validates :email, uniqueness: true
-
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
 
   include JwtAuthentication
 

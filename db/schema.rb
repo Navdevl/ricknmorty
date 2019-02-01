@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_01_31_114242) do
 
   create_table "media", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.integer "media_type"
     t.text "plot"
     t.datetime "created_at", null: false
