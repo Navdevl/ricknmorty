@@ -30,4 +30,10 @@ RSpec.describe User, type: :model do
       it { should validate_presence_of(:name) }
     end
   end
+
+  context "workflow" do 
+    it "should be creating a valid user" do 
+      user = FactoryGirl.create(:user)
+    end
+  end
 end
