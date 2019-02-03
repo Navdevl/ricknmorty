@@ -57,4 +57,10 @@ class User < ApplicationRecord
       return user_medium
     end
   end
+
+  def cached_user_media
+    user_media = Rails.cache.fetch(UserMedium.cache_key(self)) do
+      self.user_media.active.includes(:medium)
+    end
+  end
 end

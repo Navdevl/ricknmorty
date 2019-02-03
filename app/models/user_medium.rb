@@ -36,7 +36,8 @@ class UserMedium < ApplicationRecord
     self.expires_at - Time.now
   end
 
-  def self.cache_key(user)
+  def self.cache_key(user=nil)
+    return "" unless user.present?
     user_media = UserMedium.where(user_id: user.id).active
     "user_media_#{user.id}_#{user_media.minimum(:expires_at)}"
   end

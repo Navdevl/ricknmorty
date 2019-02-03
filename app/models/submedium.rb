@@ -14,7 +14,7 @@
 class Submedium < ApplicationRecord
 
   # Associations
-  belongs_to :medium, foreign_key: :parent_medium_id
+  belongs_to :medium, foreign_key: :parent_medium_id, touch: true
 
   # Validations
   validates :sub_id, :name, :plot, presence: true
