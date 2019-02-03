@@ -36,6 +36,32 @@ class Medium < ApplicationRecord
     "#{media_type.to_s}_media"
   end
 
+  def self.cached_all_media(detail: false)
+    media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: detail)) do
+      if detail
+        Medium.all.includes(:submedia).latest.order_by_episodes
+      else
+        Medium.all
+      end
+    end
+  end
+
+  def self.cached_movies
+    movies = Rails.cache.fetch(Medium.sql_cache_key(media_type: :movie, detail: @detail)) do
+      Medium.movie.latest
+    end
+  end
+
+  def self.cached_sesons(detail)
+    media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: detail)) do
+      if detail
+        Medium.season.includes(:submedia).latest.order_by_episodes
+      else
+        Medium.season
+      end
+    end
+  end
+
   def episodes
     if self.season?
       self.submedia

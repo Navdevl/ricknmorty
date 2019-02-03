@@ -3,36 +3,18 @@ class Api::V1::MediaController < Api::V1::ApplicationController
   before_action :set_detail, except: [:movies]
 
   def index
-    if @detail
-      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: @detail)) do
-        Medium.all.includes(:submedia).latest.order_by_episodes
-      end
-    else
-      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: @detail)) do
-        Medium.all.latest
-      end
-    end
-    
-    render json: @media
-
+    media = Medium.cached_all_media(detail: @detail)
+    render json: media
   end
 
   def movies
-    @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :movie, detail: @detail)) do
-      Medium.movie.latest
-    end
+    media = Medium.cached_movies
+    render json: media
   end
 
   def seasons
-    if @detail
-      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do
-        Medium.season.includes(:submedia).latest.order_by_episodes
-      end
-    else
-      @media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: @detail)) do
-        Medium.season.latest
-      end
-    end
+    media = Medium.cached_seasons(detail: @detail)
+    render json: media
   end
 
   private

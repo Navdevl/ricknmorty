@@ -1,4 +1,5 @@
 class SubmediumSerializer < ActiveModel::Serializer
-  attributes :name, :plot, :sub_id
+  attributes :name, :plot
+  attribute :sub_id, key: :episode_index
 
 end

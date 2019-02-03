@@ -8,6 +8,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
     @user_media = Rails.cache.fetch(UserMedium.cache_key(@current_user)) do
       @current_user.user_media.active.includes(:medium)
     end
+    render json: @user_media
   end
 
   def purchase

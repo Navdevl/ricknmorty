@@ -1,6 +1,6 @@
 class MediumSerializer < ActiveModel::Serializer
   attributes :name, :plot, :media_type
-  attribute :submedia, if: :is_season?
+  attribute :submedia, if: :is_season?, key: :episodes
 
   def is_season?
     object.season?
@@ -8,7 +8,7 @@ class MediumSerializer < ActiveModel::Serializer
 
   def submedia
     object.submedia.map do |project|
-      ::SubmediumSerializer.new(project).attributes
+      SubmediumSerializer.new(project).attributes
     end
   end
 end
