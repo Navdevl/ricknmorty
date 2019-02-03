@@ -11,17 +11,15 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def purchase
-    @user_medium = @current_user.purchase_medium!(@medium)
-    if @current_user.errors.any?
-      forbidden(@current_user.errors.full_messages.first) and return
-    end
-    render json: @user_medium, include: ['medium', 'user']
+    user_medium = @current_user.purchase_medium!(@medium)  
+    forbidden(@current_user.errors.full_messages.first) and return if @current_user.errors.any?
+    render json: user_medium, include: ['medium', 'user']
   end
 
   def purchases
-    @purchases = @current_user.cached_purchases
+    user_purchases = @current_user.cached_purchases
 
-    render json: @purchases, include: ['medium', 'user']
+    render json: user_purchases, include: ['medium', 'user']
   end
 
   private

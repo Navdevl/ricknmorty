@@ -29,7 +29,7 @@ class UserMedium < ApplicationRecord
   scope :active, -> {where("expires_at > ?", Time.now)}
 
   def expired?
-    time_remaining < 0
+    expires_in < 0
   end
 
   def expires_in
