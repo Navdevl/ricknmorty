@@ -1,4 +1,5 @@
 class CacheWorker
+  # This worker initates reset cache and creation of new cache when an action is done on a record
   include Sidekiq::Worker
   sidekiq_options retry: false # Either try or fail. So, it will Cache during the user-hit
 
@@ -13,6 +14,12 @@ class CacheWorker
     end
   end
 
+  def delete_cache(cache_keys)
+    cache_keys.each do |cache_key|
+      Rails.cache.delete(cache_key)
+    end
+  end
+
   def cache_user_medium(user_id)
     user = User.find_by(id: user_id)
     if user.present?
@@ -24,11 +31,10 @@ class CacheWorker
   def cache_medium(medium_id)
     medium = Medium.find_by(id: medium_id)
     return unless medium.present?
-    Rails.cache.delete(Medium.sql_cache_key(media_type: :all))
-    Rails.cache.delete(Medium.sql_cache_key(media_type: :all, detail: true))
-
-    Rails.cache.delete(Medium.sql_cache_key(media_type: medium.media_type))
-    Rails.cache.delete(Medium.sql_cache_key(media_type: medium.media_type, detail: true))
+    delete_cache([Medium.sql_cache_key(media_type: :all), 
+                  Medium.sql_cache_key(media_type: :all, detail: true),
+                  Medium.sql_cache_key(media_type: medium.media_type),
+                  Medium.sql_cache_key(media_type: medium.media_type, detail: true)])
 
     Rails.cache.write(Medium.sql_cache_key(media_type: :all), Medium.all.latest)
     Rails.cache.write(Medium.sql_cache_key(media_type: :all), Medium.all.latest)

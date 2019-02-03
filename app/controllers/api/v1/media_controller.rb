@@ -12,6 +12,9 @@ class Api::V1::MediaController < Api::V1::ApplicationController
         Medium.all.latest
       end
     end
+    
+    render json: @media
+
   end
 
   def movies

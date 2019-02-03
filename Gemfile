@@ -11,7 +11,9 @@ gem 'mysql2'
 gem 'puma', '~> 3.11'
 # Build JSON APIs with ease.
 gem 'jbuilder', '~> 2.5'
-gem 'fast_jsonapi'
+# gem 'fast_jsonapi'
+# gem 'oj'
+gem 'active_model_serializers'
 
 # Devise User Model can be used
 gem 'devise'
@@ -42,6 +44,11 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+
+  gem 'bullet'
+  gem 'rack-mini-profiler', require: false
+
+
 end
 
 group :development do

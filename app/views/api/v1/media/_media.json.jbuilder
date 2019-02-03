@@ -1,4 +1,4 @@
-json.cache! Medium.fragment_cache_key(media: media, media_type: media_type), expires_in: 1.hour do
+# json.cache! Medium.fragment_cache_key(media: media, media_type: media_type), expires_in: 1.hour do
   json.media do 
     json.array!(media) do |medium|
       json.merge! medium.describe
@@ -14,4 +14,4 @@ json.cache! Medium.fragment_cache_key(media: media, media_type: media_type), exp
       end
     end
   end
-end
+# end
