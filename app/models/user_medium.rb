@@ -32,7 +32,7 @@ class UserMedium < ApplicationRecord
     time_remaining < 0
   end
 
-  def time_remaining
+  def expires_in
     self.expires_at - Time.now
   end
 

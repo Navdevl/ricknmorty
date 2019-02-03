@@ -52,7 +52,7 @@ class Medium < ApplicationRecord
     end
   end
 
-  def self.cached_sesons(detail)
+  def self.cached_seasons(detail)
     media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: detail)) do
       if detail
         Medium.season.includes(:submedia).latest.order_by_episodes
