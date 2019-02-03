@@ -13,4 +13,10 @@ class Purchase < ApplicationRecord
   # Associations
   belongs_to :user 
   belongs_to :medium
+
+  def self.cache_key(user=nil)
+    return "" unless user.present?
+    purchases = Purchase.where(user_id: user.id)
+    "purchase_#{user.id}_#{purchases.maximum(:updated_at)}"
+  end
 end

@@ -27,6 +27,12 @@ class Medium < ApplicationRecord
   # Enums
   enum media_type: [:movie, :season]
 
+  def episodes
+    if self.season?
+      self.submedia
+    end
+  end
+
   def self.cache_key(media_type: :all, detail: false)
     return "#{media_type.to_s}_media_detail" if detail
     "#{media_type.to_s}_media"
@@ -55,12 +61,6 @@ class Medium < ApplicationRecord
       else
         Medium.season
       end
-    end
-  end
-
-  def episodes
-    if self.season?
-      self.submedia
     end
   end
 

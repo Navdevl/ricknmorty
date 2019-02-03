@@ -65,8 +65,8 @@ class User < ApplicationRecord
   end
 
   def cached_purchases
-    Rails.cache.fetch("purchases_#{self.id}") do
-      self.purchases
+    Rails.cache.fetch(Purchase.cache_key(self)) do
+      self.purchases.includes(:user, :medium)
     end
   end
 end
