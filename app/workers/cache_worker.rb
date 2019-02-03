@@ -31,19 +31,19 @@ class CacheWorker
   def cache_medium(medium_id)
     medium = Medium.find_by(id: medium_id)
     return unless medium.present?
-    delete_cache([Medium.sql_cache_key(media_type: :all), 
-                  Medium.sql_cache_key(media_type: :all, detail: true),
-                  Medium.sql_cache_key(media_type: medium.media_type),
-                  Medium.sql_cache_key(media_type: medium.media_type, detail: true)])
+    delete_cache([Medium.cache_key(media_type: :all), 
+                  Medium.cache_key(media_type: :all, detail: true),
+                  Medium.cache_key(media_type: medium.media_type),
+                  Medium.cache_key(media_type: medium.media_type, detail: true)])
 
-    Rails.cache.write(Medium.sql_cache_key(media_type: :all), Medium.all.latest)
-    Rails.cache.write(Medium.sql_cache_key(media_type: :all), Medium.all.latest)
+    Rails.cache.write(Medium.cache_key(media_type: :all), Medium.all.latest)
+    Rails.cache.write(Medium.cache_key(media_type: :all), Medium.all.latest)
 
     if medium.movie?
-      Rails.cache.write(Medium.sql_cache_key(media_type: :movie), Medium.movie.latest)
+      Rails.cache.write(Medium.cache_key(media_type: :movie), Medium.movie.latest)
     else
-      Rails.cache.write(Medium.sql_cache_key(media_type: :season), Medium.season.latest)
-      Rails.cache.write(Medium.sql_cache_key(media_type: :season, detail: true), Medium.season.includes(:submedia).latest.order_by_episodes)
+      Rails.cache.write(Medium.cache_key(media_type: :season), Medium.season.latest)
+      Rails.cache.write(Medium.cache_key(media_type: :season, detail: true), Medium.season.includes(:submedia).latest.order_by_episodes)
     end
   end
 

@@ -59,8 +59,14 @@ class User < ApplicationRecord
   end
 
   def cached_user_media
-    user_media = Rails.cache.fetch(UserMedium.cache_key(self)) do
+    Rails.cache.fetch(UserMedium.cache_key(self)) do
       self.user_media.active.includes(:medium)
+    end
+  end
+
+  def cached_purchases
+    Rails.cache.fetch("purchases_#{self.id}") do
+      self.purchases
     end
   end
 end

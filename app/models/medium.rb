@@ -27,17 +27,13 @@ class Medium < ApplicationRecord
   # Enums
   enum media_type: [:movie, :season]
 
-  def self.fragment_cache_key(media: Medium.all, media_type: :all)
-    "#{media_type.to_s}_media_#{media.maximum(:updated_at)}"
-  end
-
-  def self.sql_cache_key(media_type: :all, detail: false)
+  def self.cache_key(media_type: :all, detail: false)
     return "#{media_type.to_s}_media_detail" if detail
     "#{media_type.to_s}_media"
   end
 
   def self.cached_all_media(detail: false)
-    media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :all, detail: detail)) do
+    media = Rails.cache.fetch(Medium.cache_key(media_type: :all, detail: detail)) do
       if detail
         Medium.all.includes(:submedia).latest.order_by_episodes
       else
@@ -47,13 +43,13 @@ class Medium < ApplicationRecord
   end
 
   def self.cached_movies
-    movies = Rails.cache.fetch(Medium.sql_cache_key(media_type: :movie, detail: @detail)) do
+    movies = Rails.cache.fetch(Medium.cache_key(media_type: :movie, detail: @detail)) do
       Medium.movie.latest
     end
   end
 
   def self.cached_seasons(detail)
-    media = Rails.cache.fetch(Medium.sql_cache_key(media_type: :season, detail: detail)) do
+    media = Rails.cache.fetch(Medium.cache_key(media_type: :season, detail: detail)) do
       if detail
         Medium.season.includes(:submedia).latest.order_by_episodes
       else

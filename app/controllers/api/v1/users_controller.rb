@@ -19,9 +19,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
   end
 
   def purchases
-    @purchases = Rails.cache.fetch("purchases_#{@current_user.id}") do
-      @current_user.purchases
-    end
+    @purchases = @current_user.cached_purchases
 
     render json: @purchases, include: ['medium', 'user']
   end
