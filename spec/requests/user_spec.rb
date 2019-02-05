@@ -19,6 +19,14 @@ RSpec.describe 'Users' do
       post '/api/v1/users/purchase', params: params, headers: headers
       expect(response).not_to be_successful
     end
+
+    it 'will not allow users to purchase the same active medium' do 
+      params = {medium_id: medium.id}
+      headers = {Authorization: auth_token}
+      post '/api/v1/users/purchase', params: params, headers: headers
+      post '/api/v1/users/purchase', params: params, headers: headers
+      expect(response).not_to be_successful
+    end
   end
 
   describe 'GET /api/v1/users/media' do 
