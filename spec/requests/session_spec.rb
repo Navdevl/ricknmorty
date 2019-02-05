@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Sessions" do
+  let!(:user)   { FactoryGirl.create(:user, password: 'password') }
+
   describe 'POST /api/v1/sessions' do 
     it "log in user" do
-      user = FactoryGirl.create(:user, password: 'password')
       params = {
         email: user.email,
         password: 'password'
@@ -13,7 +14,6 @@ RSpec.describe "Sessions" do
     end
 
     it "should not allow to login" do 
-      user = FactoryGirl.create(:user, password: 'password')
       params = {
         email: user.email,
         password: 'wrong_password'
@@ -23,7 +23,6 @@ RSpec.describe "Sessions" do
     end
 
     it "should return auth token" do 
-      user = FactoryGirl.create(:user, password: 'password')
       params = {
         email: user.email,
         password: 'password'

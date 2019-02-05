@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Media' do
+  
   describe 'GET /api/v1/media' do 
     it 'creates a medium' do 
       FactoryGirl.create(:medium)
