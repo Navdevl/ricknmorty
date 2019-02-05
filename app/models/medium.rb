@@ -20,6 +20,7 @@ class Medium < ApplicationRecord
 
   # Actions
   after_save :refresh_cache
+  after_destroy :refresh_cache
 
   # Scopes
   scope :order_by_episodes, -> {order('submedia.sub_id')}

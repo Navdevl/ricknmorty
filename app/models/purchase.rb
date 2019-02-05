@@ -11,8 +11,8 @@
 
 class Purchase < ApplicationRecord
   # Associations
-  belongs_to :user 
-  belongs_to :medium
+  belongs_to :user, dependent: :nullify 
+  belongs_to :medium, dependent: :nullify
 
   def self.cache_key(user=nil)
     return "" unless user.present?

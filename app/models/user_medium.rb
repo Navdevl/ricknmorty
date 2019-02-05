@@ -15,8 +15,8 @@ class UserMedium < ApplicationRecord
   DAYS_TO_EXPIRE = 2.days
   
   # Associations
-  belongs_to :user
-  belongs_to :medium
+  belongs_to :user, dependent: :nullify
+  belongs_to :medium, dependent: :nullify
 
   # Validations
 
