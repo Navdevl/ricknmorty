@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Users' do
   describe 'POST /api/v1/users/purchase' do 
     it 'allows user to purchase a new media' do 
-      media = FactoryGirl.create(:medium)
+      medium = FactoryGirl.create(:medium)
       user = FactoryGirl.create(:user, password: 'password')
 
       params = {
@@ -15,7 +15,28 @@ RSpec.describe 'Users' do
       json = JSON.parse(response.body)
       auth_token = json['auth']['token']
 
-      get '/my/path', nil, {'HTTP_ACCEPT' => "application/json"}
+      params = {
+        medium_id: medium.id
+      }
+
+      headers = {Authorization: auth_token}
+
+      post '/api/v1/users/purchase', params: params, headers: headers
+
+      expect(response).to be_successful
+    end
+
+    it 'allows user not to purchase a new media without authorization' do 
+      medium = FactoryGirl.create(:medium)
+
+      params = {
+        medium_id: medium.id
+      }
+
+      headers = {Authorization: nil}
+
+      post '/api/v1/users/purchase', params: params, headers: headers
+      expect(response).not_to be_successful
     end
   end
 
