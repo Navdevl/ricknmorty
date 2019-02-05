@@ -30,17 +30,4 @@ RSpec.describe User, type: :model do
       it { should validate_presence_of(:name) }
     end
   end
-
-  context "workflow" do 
-    it "should be creating a valid user" do 
-      user = FactoryGirl.create(:user)
-    end
-
-    it "should be able to purchase a valid medium" do
-      medium = FactoryGirl.create(:medium)
-      user = FactoryGirl.create(:user)
-      user_medium = user.purchase_medium!(medium)
-      expect(user_medium).not_to be_empty
-    end
-  end
 end
